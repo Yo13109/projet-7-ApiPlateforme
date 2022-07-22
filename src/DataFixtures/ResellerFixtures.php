@@ -18,30 +18,46 @@ class ResellerFixtures extends Fixture
         
     public function load(ObjectManager $manager): void
     {
-        $reseller = new Reseller();
-        
-        $reseller
-            ->setEmail('sfr@gmail.com')
-            
-            ->setPassword($this->passwordHasher->hashPassword(
-                $reseller,
-                'Sfr13109'
-            ))
-            
-            ->setCompany('SFR');
-        
-            $reseller = new Reseller();
-        
-            $reseller
-                ->setEmail('orange@gmail.com')
-                
-                ->setPassword($this->passwordHasher->hashPassword(
-                    $reseller,
-                    'Orange13109'
-                ))
-                
-                ->setCompany('Orange');
+        $datas = [
+            1 =>    [
+                'email' => 'sfr@gmail.com',
+                'password' => 'Sfr13109',
+                'company'=>'SFR'
+            ],
+            2 =>  [
+                'email' => 'sfr@gmail.com',
+                'password' => 'Sfr13109',
+                'company'=>'SFR'
+            ],
+            3 =>  [
+                'email' => 'sfr@gmail.com',
+                'password' => 'Sfr13109',
+                'company'=>'SFR'
+            ],
+            4 => [
+                'email' => 'sfr@gmail.com',
+                'password' => 'Sfr13109',
+                'company'=>'SFR'
+            ],
+            5 =>  [
+                'email' => 'sfr@gmail.com',
+                'password' => 'Sfr13109',
+                'company'=>'SFR'
+            ],
+           
+        ];
 
-        $manager->flush();
+        foreach ($datas as $resellerData) {
+            $reseller = new Reseller();
+            $reseller
+                ->setEmail($resellerData['email'])
+                ->setPassword($this->passwordHasher->hashPassword(
+                    $reseller, $resellerData['password'])
+                ->setCompany($resellerData['company']);
+                
+            $manager->persist($reseller);
+
+                $manager->persist($reseller);
+                $manager->flush();
     }
 }
