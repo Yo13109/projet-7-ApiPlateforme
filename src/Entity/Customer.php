@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CustomerRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
@@ -16,20 +15,20 @@ class Customer
     #[ORM\Column()]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Adress = null;
+    #[ORM\Column(length: 255)]
+    private ?string $address = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $phone = null;
+    #[ORM\Column(length: 255)]
+    private ?string $phoneNumber = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0', nullable: true)]
-    private ?string $number = null;
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    private ?Reseller $reseller = null;
 
     public function getId(): ?int
     {
@@ -41,7 +40,7 @@ class Customer
         return $this->firstName;
     }
 
-    public function setFirstName(?string $firstName): self
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -53,45 +52,45 @@ class Customer
         return $this->lastName;
     }
 
-    public function setLastName(?string $lastName): self
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
         return $this;
     }
 
-    public function getAdress(): ?string
+    public function getAddress(): ?string
     {
-        return $this->Adress;
+        return $this->address;
     }
 
-    public function setAdress(?string $Adress): self
+    public function setAddress(string $address): self
     {
-        $this->Adress = $Adress;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getPhone(): ?string
+    public function getPhoneNumber(): ?string
     {
-        return $this->phone;
+        return $this->phoneNumber;
     }
 
-    public function setPhone(?string $phone): self
+    public function setPhoneNumber(string $phoneNumber): self
     {
-        $this->phone = $phone;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
 
-    public function getNumber(): ?string
+    public function getReseller(): ?Reseller
     {
-        return $this->number;
+        return $this->reseller;
     }
 
-    public function setNumber(?string $number): self
+    public function setReseller(?Reseller $reseller): self
     {
-        $this->number = $number;
+        $this->reseller = $reseller;
 
         return $this;
     }
