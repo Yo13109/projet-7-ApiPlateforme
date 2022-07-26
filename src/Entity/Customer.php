@@ -28,7 +28,9 @@ class Customer
     private ?string $phoneNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'customers')]
+    #[ORM\JoinColumn(nullable:false)]
     private ?Reseller $reseller = null;
+
 
     public function getId(): ?int
     {
