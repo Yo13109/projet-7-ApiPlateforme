@@ -7,7 +7,7 @@ use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class ResellerFixtures extends Fixture
+class ResellerFixtures extends Fixture 
 {
     private $passwordHasher;
 
@@ -25,39 +25,42 @@ class ResellerFixtures extends Fixture
                 'company'=>'SFR'
             ],
             2 =>  [
-                'email' => 'sfr@gmail.com',
-                'password' => 'Sfr13109',
-                'company'=>'SFR'
+                'email' => 'free@gmail.com',
+                'password' => 'Free13109',
+                'company'=>'FREE'
             ],
             3 =>  [
-                'email' => 'sfr@gmail.com',
-                'password' => 'Sfr13109',
-                'company'=>'SFR'
+                'email' => 'orange@gmail.com',
+                'password' => 'Orange13109',
+                'company'=>'ORANGE'
             ],
             4 => [
-                'email' => 'sfr@gmail.com',
-                'password' => 'Sfr13109',
-                'company'=>'SFR'
+                'email' => 'bouygues@gmail.com',
+                'password' => 'Bouygues13109',
+                'company'=>'BOUYGUES'
             ],
             5 =>  [
-                'email' => 'sfr@gmail.com',
-                'password' => 'Sfr13109',
-                'company'=>'SFR'
+                'email' => 'sosh@gmail.com',
+                'password' => 'Sosh13109',
+                'company'=>'SOSH'
             ],
            
         ];
 
-        foreach ($datas as $resellerData) {
+        foreach ($datas as $key => $resellerData) {
             $reseller = new Reseller();
             $reseller
                 ->setEmail($resellerData['email'])
                 ->setPassword($this->passwordHasher->hashPassword(
-                    $reseller, $resellerData['password'])
-                ->setCompany($resellerData['company']);
+                    $reseller, $resellerData['password']))
+                ->setCompany($resellerData['company'])
+                ;
+            $this->addReference('reseller'.$key, $reseller);
                 
             $manager->persist($reseller);
 
                 $manager->persist($reseller);
                 $manager->flush();
     }
+}
 }
