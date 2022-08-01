@@ -3,18 +3,29 @@
 namespace App\Entity;
 
 use App\Repository\ResellerRepository;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
+#[ApiResource(
+    normalizationContext:['group'=>['read:collection','read:item']],
+    itemOperations:[
+        'get'=>[
+            'normalization_context'=>['group'=>['read:collection','read:item','read:Reseller']]
+        ]
+    ]
+)]
 class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
+    #[Groups(['read:collection'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -30,6 +41,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['read:collection'])]
     private ?string $company = null;
 
     #[ORM\OneToMany(mappedBy: 'reseller', targetEntity: Customer::class)]
