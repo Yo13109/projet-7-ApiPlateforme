@@ -13,12 +13,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
 #[ApiResource(
-    normalizationContext:['group'=>['read:collection','read:item']],
+    normalizationContext:['group'=>['read:collection','read:Reseller']],
     itemOperations:[
         'get'=>[
-            'normalization_context'=>['group'=>['read:collection','read:item','read:Reseller']]
+            'normalization_context'=>['group'=>['read:collection','read:Reseller']]
         ]
-    ]
+        ],
 )]
 class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 {
