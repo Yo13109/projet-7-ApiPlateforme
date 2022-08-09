@@ -8,7 +8,15 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SmartphoneRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    itemOperations: [
+        'get'
+    ],
+    collectionOperations:[
+        'get'
+    ],
+    attributes: ["pagination_items_per_page" => 2]
+)]
 class Smartphone
 {
     #[ORM\Id]
