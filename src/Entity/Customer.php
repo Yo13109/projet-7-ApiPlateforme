@@ -8,7 +8,15 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource]
+#[ApiResource(normalizationContext:['group'=>['read:collection','read:Reseller']],
+itemOperations:[
+    'delete',
+    'get'=>[
+        'normalization_context'=>['group'=>['read:collection','read:Reseller']]
+    ]
+    ],
+    attributes: ["pagination_items_per_page" => 2]
+    )]
 class Customer
 {
     #[ORM\Id]
