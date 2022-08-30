@@ -10,9 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
 #[ApiResource(
+    denormalizationContext:['group'=>['read:inscription']],
     itemOperations: [
         'get'
     ],
@@ -25,19 +27,22 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:inscription'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Groups(['read:inscription'])]
     private ?string $email = null;
 
     #[ORM\Column]
+    #[Ignore]
     private array $roles = [];
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Groups(['read:inscription'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -45,6 +50,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $company = null;
 
     #[ORM\OneToMany(mappedBy: 'reseller', targetEntity: Customer::class)]
+    #[Ignore]
     private Collection $customers;
 
     public function __construct()
