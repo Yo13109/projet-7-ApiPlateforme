@@ -42,7 +42,6 @@ class Customer
     private ?string $phoneNumber = null;
 
     #[ORM\ManyToOne(Reseller::class)]
-    #[ORM\JoinColumn(name:"reseller_id", referencedColumnName:"id")]
     private ?Reseller $reseller = null;
 
 
