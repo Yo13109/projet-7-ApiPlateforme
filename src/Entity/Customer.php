@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Reseller;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CustomerRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -40,8 +41,8 @@ class Customer
     #[Groups(['read:Reseller'])]
     private ?string $phoneNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'customers')]
-    #[ORM\JoinColumn(nullable:false)]
+    #[ORM\ManyToOne(Reseller::class)]
+    #[ORM\JoinColumn(name:"reseller_id", referencedColumnName:"id")]
     private ?Reseller $reseller = null;
 
 

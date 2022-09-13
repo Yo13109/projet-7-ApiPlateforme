@@ -2,17 +2,22 @@
 
 namespace App\Entity;
 
+use Assert\Email;
+use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ResellerRepository;
+use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Unique;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
+#[UniqueEntity(fields:'email',message:"l'email que vous avez indiqué est déjà utilisé !")]
 #[ApiResource(
     denormalizationContext:['group'=>['read:inscription']],
     itemOperations: [
@@ -32,6 +37,8 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Groups(['read:inscription'])]
+    #[Assert\Email]
+    #[Assert\NotBlank]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -40,13 +47,19 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
+     * 
      */
     #[ORM\Column]
-    #[Groups(['read:inscription'])]
+    #[Assert\NotBlank()]
+    #[Assert\Regex(
+        pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)^[a-zA-Z\d]{8,}$/",
+        message:"Votre mot de passe doit contenir une Majuscule, une minuscule et 8 caractères minimum !"
+         )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:collection'])]
+    #[Groups(['read:collection', 'read:inscription'])]
+    #[Assert\NotBlank()]
     private ?string $company = null;
 
     #[ORM\OneToMany(mappedBy: 'reseller', targetEntity: Customer::class)]
