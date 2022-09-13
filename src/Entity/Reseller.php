@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Constraints\Unique;
+
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
 #[UniqueEntity(fields:'email',message:"l'email que vous avez indiqué est déjà utilisé !")]
@@ -54,6 +54,12 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Regex(
         pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)^[a-zA-Z\d]{8,}$/",
         message:"Votre mot de passe doit contenir une Majuscule, une minuscule et 8 caractères minimum !"
+         )]
+    #[Assert\Length(
+              min : 8,
+              max : 255,
+              minMessage : "Votre mot de passe doit comporter au moins  {{ limit }} caratères",
+              maxMessage : "Votre mot de passe ne peut pas dépasser  {{ limit }} caractères"
          )]
     private ?string $password = null;
 
