@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
+use Assert\NotBlank;
 use App\Entity\Reseller;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CustomerRepository;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource(normalizationContext:['group'=>['read:collection','read:Reseller']],
@@ -27,18 +29,23 @@ class Customer
 
     #[ORM\Column(length: 255)]
     #[Groups(['read:Reseller'])]
+    #[Assert\NotBlank]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['read:Reseller'])]
+    #[Assert\NotBlank]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['read:Reseller'])]
+    #[Assert\NotBlank]
+    
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['read:Reseller'])]
+    #[Assert\NotBlank]
     private ?string $phoneNumber = null;
 
     #[ORM\ManyToOne(Reseller::class)]
