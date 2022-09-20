@@ -14,9 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(normalizationContext:['group'=>['read:collection','read:Reseller']],
 itemOperations:[
     'delete',
-    'get'=>[
-        'normalization_context'=>['group'=>['read:collection','read:Reseller']]
-    ]
+    'get'
     ],
     attributes: ["pagination_items_per_page" => 2]
     )]
@@ -28,23 +26,28 @@ class Customer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:Reseller'])]
+    #[Assert\Regex(
+             pattern:"/^[a-zA-Z0-9\-éàèùê'_ç]+$/",
+            message:"Votre pseudo doit être valide"
+    )]
     #[Assert\NotBlank]
+    
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:Reseller'])]
+    #[Assert\Regex(
+        pattern:"/^[a-zA-Z0-9\-éàèùê'_ç]+$/",
+       message:"Votre pseudo doit être valide"
+    )]
     #[Assert\NotBlank]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:Reseller'])]
     #[Assert\NotBlank]
     
     private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:Reseller'])]
     #[Assert\NotBlank]
     private ?string $phoneNumber = null;
 

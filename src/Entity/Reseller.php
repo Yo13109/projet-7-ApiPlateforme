@@ -19,7 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
 #[UniqueEntity(fields:'email',message:"l'email que vous avez indiqué est déjà utilisé !")]
 #[ApiResource(
-    denormalizationContext:['group'=>['read:inscription']],
+    normalizationContext:['groups'=> ['list:reseller']],
+    denormalizationContext:['groups'=>['create:reseller']],
     itemOperations: [
         'get'
     ],
@@ -32,11 +33,11 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column()]
-    #[Groups(['read:inscription'])]
+    #[Groups(['create:reseller'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
-    #[Groups(['read:inscription'])]
+    #[Groups(['list:reseller','create:reseller'])]
     #[Assert\Email]
     #[Assert\NotBlank]
     private ?string $email = null;
@@ -51,6 +52,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[Assert\NotBlank()]
+    #[Groups(['create:reseller'])]
     #[Assert\Regex(
         pattern: "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)^[a-zA-Z\d]{8,}$/",
         message:"Votre mot de passe doit contenir une Majuscule, une minuscule et 8 caractères minimum !"
@@ -64,7 +66,7 @@ class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:collection', 'read:inscription'])]
+    #[Groups(['list:reseller','create:reseller'])]
     #[Assert\NotBlank()]
     private ?string $company = null;
 

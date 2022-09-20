@@ -2,9 +2,16 @@
 
 use ApiPlatform\Core\DataPersister\ContextAwareDataPersisterInterface;
 use App\Entity\Customer;
+use App\Entity\Reseller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-final class CustomerDataPersister implements ContextAwareDataPersisterInterface
+final class CustomerDataPersister extends AbstractController implements ContextAwareDataPersisterInterface 
 {
+    public function __construct(ContextAwareDataPersisterInterface $decorated)
+    {
+        $this->decorated = $decorated;
+    
+    }
     public function supports($data, array $context = []): bool
     {
        return $data instanceof Customer;
@@ -13,8 +20,16 @@ final class CustomerDataPersister implements ContextAwareDataPersisterInterface
 
     public function persist($data, array $context = [])
     {
-        // call your persistence layer to save $data
-        return $data;
+        $data->setReseller($this->getUser());
+        $result = $this->decorated->persist($data, $context);
+
+        
+            return $result;
+            
+        
+        
+      
+        
     }
 
     public function remove($data, array $context = [])
