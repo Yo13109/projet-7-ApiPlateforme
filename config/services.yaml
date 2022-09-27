@@ -27,6 +27,7 @@ services:
 
     App\DataPersister\CustomerDataPersister:
         # Uncomment only if autoconfiguration is disabled
-        tags: [ 'api_platform.data_persister' ]
+       # tags: [ 'api_platform.data_persister' ]
+        $decorated: '@api_platform.doctrine.orm.data_persister'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

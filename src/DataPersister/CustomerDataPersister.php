@@ -24,7 +24,7 @@ final class CustomerDataPersister extends AbstractController implements ContextA
         $result = $this->decorated->persist($data, $context);
 
         
-            return $result;
+        
             
         
         
@@ -34,6 +34,6 @@ final class CustomerDataPersister extends AbstractController implements ContextA
 
     public function remove($data, array $context = [])
     {
-        // call your persistence layer to delete $data
+        return $this->decorated->remove($data, $context);
     }
 }

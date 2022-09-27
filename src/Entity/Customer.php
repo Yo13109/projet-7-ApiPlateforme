@@ -28,7 +28,7 @@ class Customer
     #[ORM\Column(length: 255)]
     #[Assert\Regex(
              pattern:"/^[a-zA-Z0-9\-éàèùê'_ç]+$/",
-            message:"Votre pseudo doit être valide"
+            message:"Votre prénom doit être valide"
     )]
     #[Assert\NotBlank]
     
@@ -37,7 +37,7 @@ class Customer
     #[ORM\Column(length: 255)]
     #[Assert\Regex(
         pattern:"/^[a-zA-Z0-9\-éàèùê'_ç]+$/",
-       message:"Votre pseudo doit être valide"
+       message:"Votre nom doit être valide"
     )]
     #[Assert\NotBlank]
     private ?string $lastName = null;
