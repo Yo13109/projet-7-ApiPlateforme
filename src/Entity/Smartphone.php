@@ -8,7 +8,11 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SmartphoneRepository::class)]
-#[ApiResource(
+#[ApiResource(cacheHeaders: [
+    "max_age" => 60,
+    "shared_max_age" => 120,
+    "vary" => ["Authorization", "Accept-Language"]
+],
     itemOperations: [
         'get'
     ],

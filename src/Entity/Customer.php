@@ -11,7 +11,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
-#[ApiResource(normalizationContext:['group'=>['read:collection','read:Reseller']],
+#[ApiResource(cacheHeaders: [
+    "max_age" => 60,
+    "shared_max_age" => 120,
+    "vary" => ["Authorization", "Accept-Language"]
+],
+normalizationContext:['group'=>['read:collection','read:Reseller']],
 itemOperations:[
     'delete',
     'get'
@@ -24,10 +29,9 @@ class Customer
     #[ORM\GeneratedValue]
     #[ORM\Column()]
     private ?int $id = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\Regex(
-             pattern:"/^[a-zA-Z0-9\-éàèùê'_ç]+$/",
+            pattern:"/^[a-zA-Z0-9\-éàèùê'_ç]+$/",
             message:"Votre prénom doit être valide"
     )]
     #[Assert\NotBlank]

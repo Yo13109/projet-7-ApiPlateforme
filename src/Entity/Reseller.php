@@ -18,7 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ResellerRepository::class)]
 #[UniqueEntity(fields:'email',message:"l'email que vous avez indiqué est déjà utilisé !")]
-#[ApiResource(
+#[ApiResource(cacheHeaders: [
+        "max_age" => 60,
+        "shared_max_age" => 120,
+        "vary" => ["Authorization", "Accept-Language"]
+    ],
     normalizationContext:['groups'=> ['list:reseller']],
     denormalizationContext:['groups'=>['create:reseller']],
     itemOperations: [
