@@ -21,7 +21,7 @@ itemOperations:[
     'delete',
     'get'
     ],
-    attributes: ["pagination_items_per_page" => 2]
+    attributes: ["pagination_items_per_page" => 2, "route_prefix" => "/v1"]
     )]
 class Customer
 {
