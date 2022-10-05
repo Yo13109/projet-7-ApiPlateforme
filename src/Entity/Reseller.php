@@ -31,7 +31,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     collectionOperations:[
         'post'
     ],
+    attributes: [ "route_prefix" => "/v1"]
 )]
+
+
 class Reseller implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
